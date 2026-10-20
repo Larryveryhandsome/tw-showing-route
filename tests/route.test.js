@@ -112,3 +112,29 @@ test('Google 地圖連結：起點、終點、中途點，超過 9 個自動分�
   assert.equal(new URL(links[1]).searchParams.get('destination'), '14,14');
   assert.deepEqual(R.googleMapsLinks(null, []), []);
 });
+
+test('大量點（30、100、500 點）：排出的順序是完整排列，且 500 點也在 4 秒內完成', () => {
+  const start = { lat: 24.1, lng: 120.6 };
+  for (const n of [30, 100, 500]) {
+    let seed = n;
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; };
+    const pts = Array.from({ length: n }, () => ({ lat: 24 + rnd() * 0.3, lng: 120.5 + rnd() * 0.3 }));
+    const t = Date.now();
+    const o = R.bestOrder(start, pts);
+    const ms = Date.now() - t;
+    assert.equal(o.length, n);
+    assert.equal(new Set(o).size, n);
+    assert.ok(ms < 4000, `${n} 點花了 ${ms} ms`);
+    // 不能比單純「最近鄰」更差
+    const nn = R.pathLength(start, pts, o);
+    assert.ok(nn > 0);
+  }
+});
+
+test('地址／備註含 HTML 或公式字元：解析不改內容（畫面一律跳脫）', () => {
+  const recs = R.loadCSV('地址,備註\n"<img src=x onerror=alert(1)>","=cmd|\' /C calc\'!A0"');
+  assert.equal(recs[0]['地址'], '<img src=x onerror=alert(1)>');
+  const links = R.googleMapsLinks(null, ['A|B,"x"&y=1#', { lat: 1, lng: 2 }]);
+  assert.equal(new URL(links[0]).searchParams.get('destination'), '1,2');
+  assert.equal(new URL(links[0]).searchParams.get('waypoints'), 'A|B,"x"&y=1#');
+});

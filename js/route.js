@@ -93,7 +93,9 @@
   }
 
   /** 超過 12 間：每次走最近的下一間，再用 2-opt（拉直交叉）和 or-opt（搬動單點）改善 */
-  function heuristicOrder(start, pts) {
+  function heuristicOrder(start, pts, budgetMs) {
+    // 點數很多時改善步驟是 O(n^3)；超過時間預算就直接用目前最好的順序，不讓網頁卡死
+    const deadline = Date.now() + (budgetMs || 1500);
     const n = pts.length;
     const left = new Set(pts.map((_, i) => i));
     let order = [];
@@ -118,11 +120,13 @@
     while (improved && guard++ < 100) {
       improved = false;
       for (let i = 0; i < n - 1; i++) {
+        if (Date.now() > deadline) return order;
         for (let k = i + 1; k < n; k++) {
           if (tryOrder(order.slice(0, i).concat(order.slice(i, k + 1).reverse(), order.slice(k + 1)))) improved = true;
         }
       }
       for (let i = 0; i < n; i++) {
+        if (Date.now() > deadline) return order;
         for (let j = 0; j < n; j++) {
           if (i === j) continue;
           const c = order.slice();
@@ -137,7 +141,7 @@
 
   /**
    * 排出最順的順序（起點固定、走完最後一間就結束，不算回程）。
-   * 12 間以內保證最短；超過 12 間用快速近似法。
+   * 12 間以內保證最短；超過 12 間用快速近似法（最多花約 1.5 秒改善，點再多也不會卡住網頁）。
    * @returns {number[]} pts 的索引順序
    */
   function bestOrder(start, pts) {
