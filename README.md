@@ -10,6 +10,8 @@
 
 免安裝、免伺服器：雙擊 `index.html` 就能用。物件資料只存在你這台電腦的瀏覽器。
 
+線上試用（示範資料）：https://larryveryhandsome.github.io/tw-showing-route/
+
 ---
 
 ## 適合誰
@@ -97,6 +99,10 @@ npm test
 - 示範資料的座標是隨便挑的位置，地址和價格都是假的。
 - 距離和順序原則上僅供參考，實際路況與交通規則以現場為準。
 - 地圖資料 © OpenStreetMap contributors。大量使用時請遵守 [OpenStreetMap 圖磚使用政策](https://operations.osmfoundation.org/policies/tiles/)。
+
+## 需要哪些金鑰？
+
+**不需要任何金鑰、帳號或付費服務。** 距離在你的瀏覽器裡計算，地圖用免費的 OpenStreetMap 圖磚，Google 地圖導航只是一個開新分頁的連結（不呼叫 API）。所以沒有 `docs/金鑰申請.md`。
 
 ## 授權
 
