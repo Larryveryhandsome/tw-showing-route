@@ -101,6 +101,15 @@ npm test
 - 距離和順序原則上僅供參考，實際路況與交通規則以現場為準。
 - 地圖資料 © OpenStreetMap contributors。大量使用時請遵守 [OpenStreetMap 圖磚使用政策](https://operations.osmfoundation.org/policies/tiles/)。
 
+## 已知問題
+
+- 地圖用 OpenStreetMap 公開圖磚，只適合少量使用；大量使用請改成自己的圖磚（config.js 的 tiles）。目前沒有附自備圖磚的範例，暫無計畫。
+- 距離是直線距離，順序只是建議，不是實際路況。
+- 座標要自己填，沒有自動地址轉座標。
+- 只實測 Chromium（桌機與 375 寬）。
+
+完整的發布前檢查（八道閘門）見 [RELEASE_CHECK.md](RELEASE_CHECK.md)。
+
 ## 需要哪些金鑰？
 
 **不需要任何金鑰、帳號或付費服務。** 距離在你的瀏覽器裡計算，地圖用免費的 OpenStreetMap 圖磚，Google 地圖導航只是一個開新分頁的連結（不呼叫 API）。所以沒有 `docs/金鑰申請.md`。
