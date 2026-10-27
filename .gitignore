@@ -1,0 +1,6 @@
+node_modules/
+# 你自己的資料不要進 git，只留範本
+data/*.csv
+!data/showings.example.csv
+.DS_Store
+Thumbs.db

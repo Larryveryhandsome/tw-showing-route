@@ -1,0 +1,10 @@
+{
+  "name": "tw-showing-route",
+  "version": "1.0.0",
+  "description": "集體帶看行程表：物件清單（CSV）自動排出最順的順序，附地圖與 Google 地圖導航連結",
+  "license": "Apache-2.0",
+  "private": true,
+  "scripts": {
+    "test": "node --test"
+  }
+}
